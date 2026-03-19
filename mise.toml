@@ -25,3 +25,9 @@ run = """
 yarn run lint
 yarn run format
 """
+
+[tasks."build"]
+dir = "web"
+run = """
+yarn run build
+"""

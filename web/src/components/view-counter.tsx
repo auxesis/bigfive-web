@@ -8,7 +8,10 @@ interface ViewCounterProps {
 export async function ViewCounter({ postId }: ViewCounterProps) {
   'use server';
   noStore();
-  const views = await kv.incr(postId.replace('.md', ''));
-
-  return <p>{Intl.NumberFormat('en-us').format(views)} views</p>;
+  try {
+    const views = await kv.incr(postId.replace('.md', ''));
+    return <p>{Intl.NumberFormat('en-us').format(views)} views</p>;
+  } catch {
+    return null;
+  }
 }

@@ -2,7 +2,7 @@ import { Card, CardFooter, CardBody } from '@nextui-org/card';
 import { Avatar } from '@nextui-org/avatar';
 import { Image } from '@nextui-org/image';
 import { format, parseISO } from 'date-fns';
-import { Post } from 'contentlayer/generated';
+import { Post } from 'contentlayer2/generated';
 import { Link } from '@/navigation';
 import { calculateReadingTime } from '@/lib/helpers';
 

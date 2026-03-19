@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { Link } from '@nextui-org/link';
 import { button as buttonStyles } from '@nextui-org/theme';
 import { title, subtitle } from '@/components/primitives';
@@ -15,23 +14,24 @@ import {
 import { ArrowRightIcon } from '@/components/icons';
 import { siteConfig } from '@/config/site';
 import { compareDesc } from 'date-fns';
-import { allPosts } from 'contentlayer/generated';
+import { allPosts } from 'contentlayer2/generated';
 import { PostCard } from '@/components/post-card';
 import { SonarPulse } from '@/components/sonar-pulse';
 import { Button } from '@nextui-org/button';
-import { unstable_setRequestLocale } from 'next-intl/server';
-import { Chip, Tooltip } from '@nextui-org/react';
-import NextLink from 'next/link';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { Tooltip } from '@nextui-org/react';
 import { Translated } from '@/components/translated';
+import { CircleLinks } from '@/components/circle-links';
 
 interface Props {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
-export default function Home({ params: { locale } }: Props) {
-  unstable_setRequestLocale(locale);
-  const t = useTranslations('frontpage');
-  const f = useTranslations('facets');
+export default async function Home({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'frontpage' });
+  const f = await getTranslations({ locale, namespace: 'facets' });
 
   const posts = allPosts
     .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
@@ -164,7 +164,6 @@ export default function Home({ params: { locale } }: Props) {
                 aria-label={t('call_to_action')}
                 className='z-50 w-auto h-auto bg-gradient-to-b from-[#FF1CF7] to-[#7928CA]'
                 radius='full'
-                as={Link}
                 href='/test'
               >
                 <PlusLinearIcon
@@ -183,7 +182,7 @@ export default function Home({ params: { locale } }: Props) {
               left: -120
             }}
           >
-            {buildCircle([
+            <CircleLinks items={buildCircle([
               {
                 name: f('openness_to_experience.title'),
                 href: '/articles/openness_to_experience'
@@ -202,37 +201,7 @@ export default function Home({ params: { locale } }: Props) {
                 href: '/articles/agreeableness'
               },
               { name: f('neuroticism.title'), href: '/articles/neuroticism' }
-            ]).map((e, idx) => (
-              <div key={idx}>
-                <Button
-                  key={idx}
-                  name={e.name}
-                  style={e.style}
-                  className='absolute hidden md:inline-flex hover:bg-secondary'
-                  variant='bordered'
-                  as={Link}
-                  href={e.href}
-                  aria-label={e.name}
-                >
-                  {e.name}
-                </Button>
-                <Chip
-                  size='sm'
-                  color='secondary'
-                  variant='shadow'
-                  aria-label={e.name}
-                  classNames={{
-                    base: 'absolute md:hidden rounded-full left-[85px]',
-                    content: 'drop-shadow shadow-black text-white w-full w-36'
-                  }}
-                  style={e.smallStyle}
-                  as={Link}
-                  href={e.href}
-                >
-                  {e.name}
-                </Chip>
-              </div>
-            ))}
+            ])} />
           </div>
         </SonarPulse>
       </div>
@@ -252,7 +221,6 @@ export default function Home({ params: { locale } }: Props) {
         <div className='mt-10'>
           <Link
             isBlock
-            as={NextLink}
             className='mb-8 -ml-3 text-default-500 hover:text-default-900 text-lg'
             color='foreground'
             href='/articles'

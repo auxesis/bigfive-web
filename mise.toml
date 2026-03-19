@@ -1,8 +1,8 @@
 [tools]
+bun = "latest"
 node = "latest"
 "npm:vercel" = "latest"
 supabase = "latest"
-yarn = { version = "latest", postinstall = "cd web && yarn install" }
 
 [env]
 NEXT_PUBLIC_ENV = "development"
@@ -22,18 +22,18 @@ run = "supabase migration up"
 [tasks."test"]
 dir = "web"
 run = """
-yarn run lint
-yarn run format
+bun run lint
+bun run format
 """
 
 [tasks."build"]
 dir = "web"
 run = """
-yarn run build
+bun run build
 """
 
 [tasks."setup"]
 dir = "web"
 run = """
-yarn install
+bun install
 """

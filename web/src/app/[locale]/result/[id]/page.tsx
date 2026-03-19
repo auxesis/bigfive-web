@@ -13,10 +13,11 @@ import { DomainTabs } from './domain-tabs';
 import { Chip } from '@nextui-org/react';
 
 export async function generateMetadata({
-  params: { locale }
+  params
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'results' });
   return {
     title: t('seo.title'),
@@ -25,18 +26,20 @@ export async function generateMetadata({
 }
 
 interface ResultPageParams {
-  params: { id: string };
-  searchParams: { lang: string; showExpanded?: boolean };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ lang: string; showExpanded?: boolean }>;
 }
 
 export default async function ResultPage({
   params,
   searchParams
 }: ResultPageParams) {
+  const { id } = await params;
+  const { lang, showExpanded } = await searchParams;
   let report;
 
   try {
-    report = await getTestResult(params.id, searchParams.lang);
+    report = await getTestResult(id, lang);
   } catch {
     throw new Error('Could not retrieve report');
   }
@@ -45,13 +48,13 @@ export default async function ResultPage({
     return (
       <Alert title='Could not retrive report'>
         <>
-          <p>We could not retrive the following id {params.id}.</p>
+          <p>We could not retrive the following id {id}.</p>
           <p>Please check that it is correct or contact us at {supportEmail}</p>
         </>
       </Alert>
     );
 
-  return <Results report={report} showExpanded={searchParams.showExpanded} />;
+  return <Results report={report} showExpanded={showExpanded} />;
 }
 
 interface ResultsProps {

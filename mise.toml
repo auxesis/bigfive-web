@@ -8,8 +8,8 @@ supabase = "latest"
 NEXT_PUBLIC_ENV = "development"
 
 # Supabase credentials: set in mise.local.toml
-NEXT_PUBLIC_SUPABASE_URL = { required = true }
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = { required = true }
+NEXT_PUBLIC_SUPABASE_URL = { required = true, redact = true }
+NEXT_PUBLIC_SUPABASE_SECRET_KEY = { required = true, redact = true }
 
 [tasks."dev"]
 dir = "web"

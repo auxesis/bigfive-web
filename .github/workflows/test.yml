@@ -16,7 +16,7 @@ jobs:
           cat << EOF > mise.local.toml
           [env]
           NEXT_PUBLIC_SUPABASE_URL = ""
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = ""
+          NEXT_PUBLIC_SUPABASE_SECRET_KEY = ""
           EOF
       - uses: jdx/mise-action@v4
         with:
@@ -35,8 +35,8 @@ jobs:
         run: |
           cat << EOF > mise.local.toml
           [env]
-          NEXT_PUBLIC_SUPABASE_URL = ""
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = ""
+          NEXT_PUBLIC_SUPABASE_URL = "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}"
+          NEXT_PUBLIC_SUPABASE_SECRET_KEY = "${{ secrets.NEXT_PUBLIC_SUPABASE_SECRET_KEY }}"
           EOF
       - uses: jdx/mise-action@v4
         with:

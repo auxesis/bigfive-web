@@ -64,7 +64,7 @@ export default function ShareBar({ report }: ShareBarProps) {
           radius='full'
           size='md'
           variant='light'
-          onPress={handleCopy(`https://bigfive-test.com/result/${report.id}`)}
+          onPress={handleCopy(`${window.location.origin}/result/${report.id}`)}
         >
           <CopyIcon size={42} />
         </Button>

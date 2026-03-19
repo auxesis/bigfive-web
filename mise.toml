@@ -30,6 +30,7 @@ bun run test
 [tasks."build"]
 dir = "web"
 run = """
+bunx contentlayer2 build
 bun run build
 """
 

@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Inject credentials
+        run: |
+          cat << EOF > mise.local.toml
+          [env]
+          NEXT_PUBLIC_SUPABASE_URL = ""
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = ""
+          EOF
       - uses: jdx/mise-action@v3
         with:
           version: 2026.3.9
@@ -22,6 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Inject credentials
+        run: |
+          cat << EOF > mise.local.toml
+          [env]
+          NEXT_PUBLIC_SUPABASE_URL = ""
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = ""
+          EOF
       - uses: jdx/mise-action@v3
         with:
           version: 2026.3.9

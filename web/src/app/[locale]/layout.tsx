@@ -113,7 +113,7 @@ export default async function RootLayout({
             themeProps={
               {
                 attribute: 'class',
-                defaultTheme: 'light'
+                defaultTheme: 'system'
               } as ThemeProviderProps
             }
           >

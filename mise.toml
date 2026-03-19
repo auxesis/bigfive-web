@@ -24,6 +24,7 @@ dir = "web"
 run = """
 bun run lint
 bun run format
+bun run test
 """
 
 [tasks."build"]

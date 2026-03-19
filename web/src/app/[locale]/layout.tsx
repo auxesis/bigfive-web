@@ -8,7 +8,11 @@ import Footer from '@/components/footer';
 import type { ThemeProviderProps } from 'next-themes';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { basePath, getNavItems, locales, siteConfig } from '@/config/site';
-import { setRequestLocale, getTranslations, getMessages } from 'next-intl/server';
+import {
+  setRequestLocale,
+  getTranslations,
+  getMessages
+} from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/react';
 import { isRtlLang } from 'rtl-detect';
@@ -105,20 +109,23 @@ export default async function RootLayout({
         )}
       >
         <NextIntlClientProvider messages={messages}>
-        <Providers
-          themeProps={
-            { attribute: 'class', defaultTheme: 'light' } as ThemeProviderProps
-          }
-        >
-          <div className='relative flex flex-col h-screen'>
-            <Navbar navItems={navItems} navMenuItems={navMenuItems} />
-            <main className='container mx-auto max-w-7xl pt-16 px-6 flex-grow'>
-              {children}
-              <CookieBanner />
-            </main>
-            <Footer footerLinks={footerLinks} />
-          </div>
-        </Providers>
+          <Providers
+            themeProps={
+              {
+                attribute: 'class',
+                defaultTheme: 'light'
+              } as ThemeProviderProps
+            }
+          >
+            <div className='relative flex flex-col h-screen'>
+              <Navbar navItems={navItems} navMenuItems={navMenuItems} />
+              <main className='container mx-auto max-w-7xl pt-16 px-6 flex-grow'>
+                {children}
+                <CookieBanner />
+              </main>
+              <Footer footerLinks={footerLinks} />
+            </div>
+          </Providers>
         </NextIntlClientProvider>
         <Script
           src='https://bigfive-test.com/sw.js'

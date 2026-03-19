@@ -14,6 +14,6 @@ export default defineConfig([
     'build/**',
     'next-env.d.ts',
     'next.config.js',
-    'public/**',
-  ]),
+    'public/**'
+  ])
 ]);

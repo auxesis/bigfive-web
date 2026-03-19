@@ -15,7 +15,8 @@ import { CookieConsentSettings } from './cookie-consent-settings';
 
 export default function CookieBanner() {
   const [showBanner, setShowBanner] = useState(
-    () => typeof window !== 'undefined' && !localStorage.getItem('cookie_consent')
+    () =>
+      typeof window !== 'undefined' && !localStorage.getItem('cookie_consent')
   );
   const [showCookieConsentSettings, setShowCookieConsentSettings] =
     useState(false);

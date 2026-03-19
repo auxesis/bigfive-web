@@ -19,10 +19,14 @@ interface CookieConsentSettingsProps {
 
 export const CookieConsentSettings = (props: CookieConsentSettingsProps) => {
   const [isAnalyticsSelected, setIsAnalyticsSelected] = useState(
-    () => typeof window === 'undefined' || localStorage.getItem('cookie_consent_analytics') !== 'false'
+    () =>
+      typeof window === 'undefined' ||
+      localStorage.getItem('cookie_consent_analytics') !== 'false'
   );
   const [isMarketingSelected, setIsMarketingSelected] = useState(
-    () => typeof window === 'undefined' || localStorage.getItem('cookie_consent_marketing') !== 'false'
+    () =>
+      typeof window === 'undefined' ||
+      localStorage.getItem('cookie_consent_marketing') !== 'false'
   );
 
   const handleSavePreferences = () => {

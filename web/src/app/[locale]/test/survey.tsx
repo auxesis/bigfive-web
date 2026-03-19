@@ -53,7 +53,8 @@ export const Survey = ({
     const restoreDataFromStorage = () => {
       const data = localStorage.getItem('b5data');
       if (data) {
-        const { answers: savedAnswers, currentQuestionIndex: savedIndex } = JSON.parse(data);
+        const { answers: savedAnswers, currentQuestionIndex: savedIndex } =
+          JSON.parse(data);
         setAnswers(savedAnswers);
         setCurrentQuestionIndex(savedIndex);
         setRestored(true);

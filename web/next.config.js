@@ -9,11 +9,11 @@ const nextConfig = {
     resolveAlias: {
       'contentlayer/generated': 'contentlayer2/generated',
       'contentlayer/client': 'contentlayer2/client',
-      'react': 'react/index.js',
+      react: 'react/index.js',
       'react-dom': 'react-dom/index.js',
-      'react-dom/server': 'react-dom/server.js',
-    },
-  },
+      'react-dom/server': 'react-dom/server.js'
+    }
+  }
 };
 
 module.exports = withContentlayer(withNextIntl(nextConfig));

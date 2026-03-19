@@ -21,8 +21,8 @@ export const GetResultPage = ({
 }: GetResultPageProps) => {
   const router = useRouter();
 
-  const [previousResultId] = useState<string | null>(
-    () => typeof window !== 'undefined' ? localStorage.getItem('resultId') : null
+  const [previousResultId] = useState<string | null>(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('resultId') : null
   );
   const [id, setId] = useState('');
 

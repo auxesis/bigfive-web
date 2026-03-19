@@ -45,12 +45,12 @@ Run the development server:
 mise run dev
 ```
 
-## Linting
+## Testing
 
-Run the linter
+Run linting and format checks:
 
 ```
-yarn lint && yarn format:fix
+mise run test
 ```
 
 ## Deploying

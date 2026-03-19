@@ -18,3 +18,10 @@ run = "yarn run dev"
 [tasks."db:migrate"]
 dir = "web"
 run = "supabase migration up"
+
+[tasks."test"]
+dir = "web"
+run = """
+yarn run lint
+yarn run format
+"""

@@ -68,7 +68,7 @@ export async function saveTest(testResult: DbResult) {
         invalid: testResult.invalid,
         time_elapsed: testResult.timeElapsed,
         date_stamp: testResult.dateStamp,
-        answers: testResult.answers,
+        answers: testResult.answers
       })
       .select('id')
       .single();
@@ -105,13 +105,11 @@ export async function saveFeedback(
     message: String(formData.get('message'))
   };
   try {
-    const { error } = await getSupabase()
-      .from('feedback')
-      .insert({
-        name: feedback.name,
-        email: feedback.email,
-        message: feedback.message
-      });
+    const { error } = await getSupabase().from('feedback').insert({
+      name: feedback.name,
+      email: feedback.email,
+      message: feedback.message
+    });
     if (error) {
       return {
         message: 'Error sending feedback!',

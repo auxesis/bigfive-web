@@ -31,3 +31,9 @@ dir = "web"
 run = """
 yarn run build
 """
+
+[tasks."setup"]
+dir = "web"
+run = """
+yarn install
+"""

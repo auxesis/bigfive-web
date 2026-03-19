@@ -23,6 +23,8 @@ jobs:
           version: 2026.3.9
           install: true
           cache: true
+      - name: Setup dependencies
+        run: mise run setup
       - name: Build the app
         run: mise run build
   test:
@@ -41,5 +43,7 @@ jobs:
           version: 2026.3.9
           install: true
           cache: true
+      - name: Setup dependencies
+        run: mise run setup
       - name: Run tests
         run: mise run test

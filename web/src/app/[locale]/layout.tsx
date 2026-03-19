@@ -27,7 +27,6 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'frontpage' });
   const s = await getTranslations({ locale, namespace: 'seo' });
-  const alternatesLang = locales.reduce((a, v) => ({ ...a, [v]: `/${v}` }), {});
   return {
     title: {
       default: t('seo.title'),

@@ -58,7 +58,7 @@ export default async function ComparePage({
           key={domain.domain}
           title={domain.title}
           shortDescription={domain.shortDescription}
-          // @ts-ignore
+          // @ts-expect-error type mismatch between getNamedFacets return and domain prop
           domain={getNamedFacets(domain.domain)}
         />
       ))}

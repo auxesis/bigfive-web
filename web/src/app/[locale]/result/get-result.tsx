@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { Button } from '@nextui-org/button';
 import { useRouter } from '@/navigation';
 import { formatAndValidateId, formatId } from '@/lib/helpers';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Input } from '@nextui-org/input';
 import { ResultIcon } from '@/components/icons';
 
@@ -21,7 +21,9 @@ export const GetResultPage = ({
 }: GetResultPageProps) => {
   const router = useRouter();
 
-  const [previousResultId, setPreviousResultId] = useState<string | null>(null);
+  const [previousResultId] = useState<string | null>(
+    () => typeof window !== 'undefined' ? localStorage.getItem('resultId') : null
+  );
   const [id, setId] = useState('');
 
   const isInvalidId = useMemo(() => {
@@ -29,13 +31,6 @@ export const GetResultPage = ({
 
     return !formatAndValidateId(id);
   }, [id]);
-
-  useEffect(() => {
-    const resultId = localStorage.getItem('resultId');
-    if (resultId) {
-      setPreviousResultId(resultId);
-    }
-  }, []);
 
   const handleGetResults = () => {
     if (!formatAndValidateId(id)) return;

@@ -33,7 +33,7 @@ export const SonarPulse: FC<SonarPulseProps> = ({
 
     return Array.from({ length }).map((_, i) => {
       const alphaFactor = alpha - i * factor;
-      let rgbaColor = parseToRgba(color);
+      const rgbaColor = parseToRgba(color);
 
       rgbaColor[3] = alphaFactor;
 

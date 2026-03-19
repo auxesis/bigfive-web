@@ -2,8 +2,6 @@ import { Report, getTestResult } from '@/actions';
 import { Snippet } from '@nextui-org/snippet';
 import { useTranslations } from 'next-intl';
 import { title } from '@/components/primitives';
-import { DomainPage } from './domain';
-import { Domain } from '@bigfive-org/results';
 import { getTranslations } from 'next-intl/server';
 import { BarChart } from '@/components/bar-chart';
 import { Link } from '@/navigation';
@@ -39,7 +37,7 @@ export default async function ResultPage({
 
   try {
     report = await getTestResult(params.id, searchParams.lang);
-  } catch (error) {
+  } catch {
     throw new Error('Could not retrieve report');
   }
 

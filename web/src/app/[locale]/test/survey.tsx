@@ -12,7 +12,7 @@ import { type Question } from '@bigfive-org/questions';
 import { sleep, formatTimer, isDev } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import useTimer from '@/hooks/useTimer';
-import { type Answer } from '@/types';
+import { type Answer, type DbResult } from '@/types';
 import { Card, CardHeader } from '@nextui-org/card';
 
 interface SurveyProps {
@@ -20,7 +20,7 @@ interface SurveyProps {
   nextText: string;
   prevText: string;
   resultsText: string;
-  saveTest: Function;
+  saveTest: (testResult: DbResult) => Promise<{ id: string }>;
   language: string;
 }
 
@@ -50,13 +50,19 @@ export const Survey = ({
   }, [width]);
 
   useEffect(() => {
-    const restoreData = () => {
-      if (dataInLocalStorage()) {
-        console.log('Restoring data from local storage');
-        restoreDataFromLocalStorage();
+    const restoreDataFromStorage = () => {
+      const data = localStorage.getItem('b5data');
+      if (data) {
+        const { answers: savedAnswers, currentQuestionIndex: savedIndex } = JSON.parse(data);
+        setAnswers(savedAnswers);
+        setCurrentQuestionIndex(savedIndex);
+        setRestored(true);
       }
     };
-    restoreData();
+    if (localStorage.getItem('inProgress')) {
+      console.log('Restoring data from local storage');
+      restoreDataFromStorage();
+    }
   }, []);
 
   const currentQuestions = useMemo(
@@ -147,7 +153,7 @@ export const Survey = ({
       lang: language,
       invalid: false,
       timeElapsed: seconds,
-      dateStamp: new Date(),
+      dateStamp: new Date().toISOString(),
       answers
     });
     localStorage.removeItem('inProgress');
@@ -157,26 +163,12 @@ export const Survey = ({
     router.push(`/result/${result.id}`);
   }
 
-  function dataInLocalStorage() {
-    return !!localStorage.getItem('inProgress');
-  }
-
   function populateDataInLocalStorage() {
     localStorage.setItem('inProgress', 'true');
     localStorage.setItem(
       'b5data',
       JSON.stringify({ answers, currentQuestionIndex })
     );
-  }
-
-  function restoreDataFromLocalStorage() {
-    const data = localStorage.getItem('b5data');
-    if (data) {
-      const { answers, currentQuestionIndex } = JSON.parse(data);
-      setAnswers(answers);
-      setCurrentQuestionIndex(currentQuestionIndex);
-      setRestored(true);
-    }
   }
 
   function clearDataInLocalStorage() {

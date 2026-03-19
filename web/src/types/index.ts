@@ -32,7 +32,7 @@ type ErrorName = 'NotFoundError' | 'SavingError';
 class ErrorBase<T extends string> extends Error {
   name: T;
   message: string;
-  cause: any;
+  cause: unknown;
 
   constructor({
     name,
@@ -41,7 +41,7 @@ class ErrorBase<T extends string> extends Error {
   }: {
     name: T;
     message: string;
-    cause?: any;
+    cause?: unknown;
   }) {
     super();
     this.name = name;

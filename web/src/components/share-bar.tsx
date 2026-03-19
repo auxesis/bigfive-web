@@ -11,7 +11,7 @@ interface ShareBarProps {
 }
 
 export default function ShareBar({ report }: ShareBarProps) {
-  const [_, copy] = useCopyToClipboard();
+  const [, copy] = useCopyToClipboard();
 
   const handleCopy = (text: string) => async () => await copy(text);
 

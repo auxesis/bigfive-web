@@ -1,7 +1,6 @@
 import { format, parseISO } from 'date-fns';
-import { allPosts } from 'contentlayer/generated';
+import { allPosts } from 'contentlayer2/generated';
 import { ChevronRightLinearIcon } from '@/components/icons';
-import NextLink from 'next/link';
 import { User } from '@nextui-org/user';
 import { Link } from '@nextui-org/react';
 import { Image } from '@nextui-org/image';
@@ -12,15 +11,25 @@ import { Suspense } from 'react';
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 
-export const generateMetadata = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
+export const generateMetadata = async ({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
+  const post = allPosts.find((post) => post._raw.flattenedPath === slug);
+  if (!post) throw new Error(`Post not found for slug: ${slug}`);
   return { title: post.title };
 };
 
-const PostLayout = async ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
+const PostLayout = async ({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
+  const post = allPosts.find((post) => post._raw.flattenedPath === slug);
+  if (!post) throw new Error(`Post not found for slug: ${slug}`);
   return (
     <article className='w-full flex flex-col justify-start items-center prose prose-neutral'>
       <div className='w-full max-w-4xl'>
@@ -28,7 +37,6 @@ const PostLayout = async ({ params }: { params: { slug: string } }) => {
           <div className='flex grow'>
             <Link
               isBlock
-              as={NextLink}
               className='text-default-500 hover:text-default-900 justify-start mb-2'
               color='foreground'
               href='/articles'

@@ -120,7 +120,7 @@ export async function saveFeedback(
       message: 'Sent successfully!',
       type: 'success'
     };
-  } catch (error) {
+  } catch {
     return {
       message: 'Error sending feedback!',
       type: 'error'

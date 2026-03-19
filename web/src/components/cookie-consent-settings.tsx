@@ -10,7 +10,7 @@ import {
 } from '@nextui-org/modal';
 import { Switch } from '@nextui-org/switch';
 import { CookieIcon } from './icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface CookieConsentSettingsProps {
   showCookieConsentSettings: boolean;
@@ -18,8 +18,16 @@ interface CookieConsentSettingsProps {
 }
 
 export const CookieConsentSettings = (props: CookieConsentSettingsProps) => {
-  const [isAnalyticsSelected, setIsAnalyticsSelected] = useState(true);
-  const [isMarketingSelected, setIsMarketingSelected] = useState(true);
+  const [isAnalyticsSelected, setIsAnalyticsSelected] = useState(
+    () =>
+      typeof window === 'undefined' ||
+      localStorage.getItem('cookie_consent_analytics') !== 'false'
+  );
+  const [isMarketingSelected, setIsMarketingSelected] = useState(
+    () =>
+      typeof window === 'undefined' ||
+      localStorage.getItem('cookie_consent_marketing') !== 'false'
+  );
 
   const handleSavePreferences = () => {
     localStorage.setItem(
@@ -33,22 +41,6 @@ export const CookieConsentSettings = (props: CookieConsentSettingsProps) => {
     localStorage.setItem('cookie_consent', 'accepted');
     props.setShowCookieConsentSettings(false);
   };
-
-  useEffect(() => {
-    const storedMarketingCookieConsent = localStorage.getItem(
-      'cookie_consent_marketing'
-    );
-    const storedAnalyticsCookieConsent = localStorage.getItem(
-      'cookie_consent_analytics'
-    );
-
-    if (storedAnalyticsCookieConsent === 'false') {
-      setIsAnalyticsSelected(false);
-    }
-    if (storedMarketingCookieConsent === 'false') {
-      setIsAnalyticsSelected(false);
-    }
-  }, []);
 
   return (
     <Modal

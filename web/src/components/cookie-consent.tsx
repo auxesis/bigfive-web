@@ -9,21 +9,17 @@ import {
   ModalHeader
 } from '@nextui-org/modal';
 import { Link } from '@nextui-org/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SettingsIcon } from './icons';
 import { CookieConsentSettings } from './cookie-consent-settings';
 
 export default function CookieBanner() {
-  const [showBanner, setShowBanner] = useState(false);
+  const [showBanner, setShowBanner] = useState(
+    () =>
+      typeof window !== 'undefined' && !localStorage.getItem('cookie_consent')
+  );
   const [showCookieConsentSettings, setShowCookieConsentSettings] =
     useState(false);
-
-  useEffect(() => {
-    const storedCookieConsent = localStorage.getItem('cookie_consent');
-    if (!storedCookieConsent) {
-      setShowBanner(true);
-    }
-  }, []);
 
   const handleAllowCookies = () => {
     localStorage.setItem('cookie_consent', 'accepted');

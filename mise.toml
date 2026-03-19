@@ -1,15 +1,15 @@
 [tools]
+bun = "latest"
 node = "latest"
 "npm:vercel" = "latest"
 supabase = "latest"
-yarn = { version = "latest", postinstall = "cd web && yarn install" }
 
 [env]
 NEXT_PUBLIC_ENV = "development"
 
 # Supabase credentials: set in mise.local.toml
-NEXT_PUBLIC_SUPABASE_URL = { required = true }
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = { required = true }
+NEXT_PUBLIC_SUPABASE_URL = { required = true, redact = true }
+NEXT_PUBLIC_SUPABASE_SECRET_KEY = { required = true, redact = true }
 
 [tasks."dev"]
 dir = "web"
@@ -22,18 +22,19 @@ run = "supabase migration up"
 [tasks."test"]
 dir = "web"
 run = """
-yarn run lint
-yarn run format
+bun run lint
+bun run format
+bun run test
 """
 
 [tasks."build"]
 dir = "web"
 run = """
-yarn run build
+bun run build
 """
 
 [tasks."setup"]
 dir = "web"
 run = """
-yarn install
+bun install
 """

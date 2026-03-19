@@ -1,6 +1,6 @@
 'use server';
 
-import { supabase } from '@/db';
+import { getSupabase } from '@/db';
 import { B5Error, DbResult, Feedback } from '@/types';
 import calculateScore from '@bigfive-org/score';
 import generateResult, {
@@ -25,7 +25,7 @@ export async function getTestResult(
 ): Promise<Report | undefined> {
   'use server';
   try {
-    const { data: report, error } = await supabase
+    const { data: report, error } = await getSupabase()
       .from('results')
       .select('id, lang, date_stamp, answers')
       .eq('id', id)
@@ -60,7 +60,7 @@ export async function getTestResult(
 export async function saveTest(testResult: DbResult) {
   'use server';
   try {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('results')
       .insert({
         test_id: testResult.testId,
@@ -105,7 +105,7 @@ export async function saveFeedback(
     message: String(formData.get('message'))
   };
   try {
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('feedback')
       .insert({
         name: feedback.name,

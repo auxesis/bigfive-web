@@ -6,7 +6,7 @@ export const formatId = (id: string): string => {
 };
 
 export const validId: (id: string) => boolean = (id: string) =>
-  /^[0-9a-fA-F]{24}$/.test(id);
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 
 export const formatAndValidateId = (id: string): boolean => {
   const formattedId = formatId(id);

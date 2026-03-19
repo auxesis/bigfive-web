@@ -13,46 +13,36 @@ The frontend is written in [nodejs](https://nodejs.org) using the
 
 ## Installation
 
-Download and install [nodejs](https://nodejs.org),
-[git](https://git-scm.com/downloads) and [vercel-cli](https://vercel.com/download)
-
-Install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+Ensure you have installed [`mise`](https://mise.jdx.dev/), then run:
 
 ```
-npm install --global yarn
+git clone https://github.com/auxesis/bigfive-web
+cd bigfive-web
+mise install
 ```
-
-Install docker and docker-compose
-
-The results are saved to a [mongodb](https://www.mongodb.com/) database, so for a full test you either need a running mongodb or an instance at [mlab](https://mlab.com/)
 
 ## Development
 
-add .env.local file
+Copy `mise.local.toml.example` to `mise.local.toml` and fill in your Supabase credentials:
 
-```
-NEXT_PUBLIC_ENV=development
-DB_URL=mongodb://root:example@localhost:27017
-DB_NAME=b5
-DB_COLLECTION=results
-```
-
-Run the setup script to install all dependencies
-
-```
-yarn
+```toml
+[env]
+NEXT_PUBLIC_SUPABASE_URL = "https://your-project.supabase.co"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "your-publishable-key"
 ```
 
-Start mongodb server
+Run the SQL in `web/src/db/schema.sql` in the [Supabase SQL Editor](https://supabase.com/dashboard/project/_/sql) to create the required tables.
+
+Install dependencies:
 
 ```
-docker-compose up -d
+yarn install
 ```
 
-Run the development server
+Run the development server:
 
 ```
-yarn dev
+mise run dev
 ```
 
 ## Linting
@@ -61,6 +51,16 @@ Run the linter
 
 ```
 yarn lint && yarn format:fix
+```
+
+## Deploying
+
+Apply database migrations:
+
+```
+supabase login
+supabase link
+supabase db push
 ```
 
 ## License

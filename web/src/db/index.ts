@@ -1,23 +1,12 @@
-import mongodb, { MongoClient } from 'mongodb';
+import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.DB_URL;
-if (!url) {
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
   throw new Error(
-    'Please define the DB_URL environment variable inside .env.local'
+    'Please define NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in mise.local.toml'
   );
 }
 
-const dbName = process.env.DB_NAME || 'results';
-
-const mongoClient = new MongoClient(url);
-
-let cachedDb: mongodb.Db | null = null;
-
-export async function connectToDatabase() {
-  if (cachedDb) return cachedDb;
-
-  const client = await mongoClient.connect();
-  const db = client.db(dbName);
-  cachedDb = db;
-  return db;
-}
+export const supabase = createClient(supabaseUrl, supabaseKey);

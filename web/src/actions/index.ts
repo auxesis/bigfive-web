@@ -1,7 +1,6 @@
 'use server';
 
-import { connectToDatabase } from '@/db';
-import { ObjectId } from 'mongodb';
+import { supabase } from '@/db';
 import { B5Error, DbResult, Feedback } from '@/types';
 import calculateScore from '@bigfive-org/score';
 import generateResult, {
@@ -10,7 +9,6 @@ import generateResult, {
   Domain
 } from '@bigfive-org/results';
 
-const collectionName = process.env.DB_COLLECTION || 'results';
 const resultLanguages = getInfo().languages;
 
 export type Report = {
@@ -27,11 +25,12 @@ export async function getTestResult(
 ): Promise<Report | undefined> {
   'use server';
   try {
-    const query = { _id: new ObjectId(id) };
-    const db = await connectToDatabase();
-    const collection = db.collection(collectionName);
-    const report = await collection.findOne(query);
-    if (!report) {
+    const { data: report, error } = await supabase
+      .from('results')
+      .select('id, lang, date_stamp, answers')
+      .eq('id', id)
+      .single();
+    if (error || !report) {
       console.error(`The test results with id ${id} are not found!`);
       throw new B5Error({
         name: 'NotFoundError',
@@ -44,8 +43,8 @@ export async function getTestResult(
     const scores = calculateScore({ answers: report.answers });
     const results = generateResult({ lang: selectedLanguage, scores });
     return {
-      id: report._id.toString(),
-      timestamp: report.dateStamp,
+      id: report.id,
+      timestamp: new Date(report.date_stamp).getTime(),
       availableLanguages: resultLanguages,
       language: selectedLanguage,
       results
@@ -61,10 +60,26 @@ export async function getTestResult(
 export async function saveTest(testResult: DbResult) {
   'use server';
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection(collectionName);
-    const result = await collection.insertOne(testResult);
-    return { id: result.insertedId.toString() };
+    const { data, error } = await supabase
+      .from('results')
+      .insert({
+        test_id: testResult.testId,
+        lang: testResult.lang,
+        invalid: testResult.invalid,
+        time_elapsed: testResult.timeElapsed,
+        date_stamp: testResult.dateStamp,
+        answers: testResult.answers,
+      })
+      .select('id')
+      .single();
+    if (error) {
+      console.error(error);
+      throw new B5Error({
+        name: 'SavingError',
+        message: 'Failed to save test result!'
+      });
+    }
+    return { id: data.id };
   } catch (error) {
     console.error(error);
     throw new B5Error({
@@ -90,9 +105,19 @@ export async function saveFeedback(
     message: String(formData.get('message'))
   };
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection('feedback');
-    await collection.insertOne({ feedback });
+    const { error } = await supabase
+      .from('feedback')
+      .insert({
+        name: feedback.name,
+        email: feedback.email,
+        message: feedback.message
+      });
+    if (error) {
+      return {
+        message: 'Error sending feedback!',
+        type: 'error'
+      };
+    }
     return {
       message: 'Sent successfully!',
       type: 'success'

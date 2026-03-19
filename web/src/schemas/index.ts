@@ -20,9 +20,5 @@ export const testSchema = z.object({
 });
 
 export const testId = z.object({
-  id: z
-    .string()
-    .regex(/^[0-9a-fA-F]{24}$/, 'Invalid hexadecimal ID')
-    .min(24)
-    .max(24)
+  id: z.string().uuid('Invalid UUID')
 });

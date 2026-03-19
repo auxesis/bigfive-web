@@ -40,11 +40,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }
     },
     {
-      url: `${basePath}/result/58a70606a835c400c8b38e84?showExpanded=true`,
+      url: `${basePath}/result/550e8400-e29b-41d4-a716-446655440000?showExpanded=true`,
       lastModified: new Date(),
       alternates: {
         languages: alternatesParamsLang(
-          '/result/58a70606a835c400c8b38e84?showExpanded=true'
+          '/result/550e8400-e29b-41d4-a716-446655440000?showExpanded=true'
         )
       }
     },

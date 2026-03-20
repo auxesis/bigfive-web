@@ -5,10 +5,10 @@ import { DbResult } from '@/types';
 // Exact payload from request.js: POST /es/test via next-action saveTest
 const testPayload: DbResult = {
   testId: 'b5-120',
-  lang: 'es',
+  lang: 'en',
   invalid: false,
   timeElapsed: 5,
-  dateStamp: '2026-03-19T13:14:48.552Z',
+  dateStamp: new Date().toISOString(),
   answers: [
     {
       id: '43c98ce8-a07a-4dc2-80f6-c1b2a2485f06',

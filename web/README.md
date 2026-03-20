@@ -17,26 +17,28 @@ Ensure you have installed [`mise`](https://mise.jdx.dev/), then run:
 
 ```
 git clone https://github.com/auxesis/bigfive-web
-cd bigfive-web
+cd bigfive-web/web
 mise install
 ```
 
 ## Development
 
-Copy `mise.local.toml.example` to `mise.local.toml` and fill in your Supabase credentials:
-
-```toml
-[env]
-NEXT_PUBLIC_SUPABASE_URL = "https://your-project.supabase.co"
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "your-publishable-key"
-```
-
-Run the SQL in `web/src/db/schema.sql` in the [Supabase SQL Editor](https://supabase.com/dashboard/project/_/sql) to create the required tables.
-
-Install dependencies:
+Install app dependencies:
 
 ```
-yarn install
+mise run setup
+```
+
+Start the database:
+
+```
+mise run db:start
+```
+
+Apply database migrations:
+
+```
+mise run db:migrate
 ```
 
 Run the development server:
@@ -47,7 +49,7 @@ mise run dev
 
 ## Testing
 
-Run linting and format checks:
+Run all the tests (linting, formatting, unit, integration):
 
 ```
 mise run test

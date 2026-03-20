@@ -6,14 +6,27 @@ supabase = "latest"
 
 [env]
 NEXT_PUBLIC_ENV = "development"
-
-# Supabase credentials: set in mise.local.toml
-NEXT_PUBLIC_SUPABASE_URL = { required = true, redact = true }
-NEXT_PUBLIC_SUPABASE_SECRET_KEY = { required = true, redact = true }
+NEXT_PUBLIC_SUPABASE_URL = {
+  value = "http://127.0.0.1:54321",
+  redact = true
+}
+NEXT_PUBLIC_SUPABASE_SECRET_KEY = {
+  # hard coded credential used by Supabase in local dev
+  value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
+  redact = true
+}
 
 [tasks."dev"]
 dir = "web"
 run = "yarn run dev"
+
+[tasks."db:start"]
+dir = "web"
+run = "supabase start"
+
+[tasks."db:stop"]
+dir = "web"
+run = "supabase stop"
 
 [tasks."db:migrate"]
 dir = "web"
@@ -21,6 +34,7 @@ run = "supabase migration up"
 
 [tasks."test"]
 dir = "web"
+env = { NEXT_PUBLIC_ENV = "test" }
 run = """
 bun run lint
 bun run format

@@ -1,3 +1,5 @@
+type Score = 'low' | 'neutral' | 'high'
+
 interface Answer {
   domain: string
   facet?: number
@@ -7,8 +9,12 @@ interface Answer {
 interface Result {
   score: number
   count: number
-  result: string
-  facet: Record<string, { score: number, count: number, result: string }>
+  result: Score
+  facet: Record<string, { score: number, count: number, result: Score }>
+}
+
+export default function calculateScore({ answers }: { answers: Answer[] }): Record<string, Result> {
+  return processAnswers(answers);
 }
 
 export function processAnswers (answers: Answer[]): Record<string, Result> {
@@ -42,7 +48,7 @@ export function processAnswers (answers: Answer[]): Record<string, Result> {
   return result
 }
 
-export function calculateResult (score: number, count: number): string {
+export function calculateResult (score: number, count: number): Score {
   const avgScore = score / count
   if (avgScore > 3.5) {
     return 'high'

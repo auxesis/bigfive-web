@@ -2,6 +2,7 @@
   "name": "@bigfive-org/results",
   "version": "1.0.0",
   "description": "Text for big five results score",
+  "main": "src/index.ts",
   "files": [
     "build/src/"
   ],

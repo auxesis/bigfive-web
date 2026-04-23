@@ -15,7 +15,7 @@ NEXT_PUBLIC_SUPABASE_SECRET_KEY = {
   value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
   redact = true
 }
-BIGFIVE_WEB_GITHUB_REPO = "https://github.com/auxesis/bigfive-web"
+NEXT_PUBLIC_BIGFIVE_WEB_GITHUB_REPO = "https://github.com/auxesis/bigfive-web"
 
 [tasks."dev"]
 dir = "web"

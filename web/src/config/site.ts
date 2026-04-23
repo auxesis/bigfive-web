@@ -53,6 +53,30 @@ export const languages: Language[] = [
 
 export const locales = languages.map((lang) => lang.code) as string[];
 
+const DEFAULT_GITHUB_URL = 'https://github.com/rubynor/bigfive-web';
+
+const isValidGithubUrl = (value: string): boolean => {
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== 'https:') return false;
+    const host = parsed.hostname.toLowerCase();
+    if (host !== 'github.com' && host !== 'www.github.com') return false;
+    return parsed.pathname.replace(/^\/+|\/+$/g, '').length > 0;
+  } catch {
+    return false;
+  }
+};
+
+function resolveGithubUrl(): string {
+  const override = process.env.NEXT_PUBLIC_BIGFIVE_WEB_GITHUB_REPO;
+  if (!override) return DEFAULT_GITHUB_URL;
+  if (isValidGithubUrl(override)) return override;
+  console.warn(
+    `[site] Ignoring invalid NEXT_PUBLIC_BIGFIVE_WEB_GITHUB_REPO value: ${override}`
+  );
+  return DEFAULT_GITHUB_URL;
+}
+
 export const siteConfig = {
   name: 'Big Five Personality Test',
   creator: '@maccyber',
@@ -133,7 +157,7 @@ export const siteConfig = {
     }
   ],
   links: {
-    github: 'https://github.com/rubynor/bigfive-web',
+    github: resolveGithubUrl(),
     twitter: 'https://twitter.com/rubynor',
     linkedIn: 'https://www.linkedin.com/company/rubynor-as/',
     facebook: 'https://www.facebook.com/rubynorno'

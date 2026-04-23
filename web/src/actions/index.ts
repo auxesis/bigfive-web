@@ -39,9 +39,14 @@ export async function getTestResult(
     }
     const selectedLanguage =
       language ||
-      (!!resultLanguages.find((l) => l.id == report.lang) ? report.lang : 'en');
+      (!!resultLanguages.find((l) => l.code == report.lang)
+        ? report.lang
+        : 'en');
     const scores = calculateScore({ answers: report.answers });
-    const results = generateResult({ lang: selectedLanguage, scores });
+    const results = await generateResult({
+      language: selectedLanguage,
+      scores
+    });
     return {
       id: report.id,
       timestamp: new Date(report.date_stamp).getTime(),

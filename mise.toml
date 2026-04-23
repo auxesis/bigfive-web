@@ -18,7 +18,7 @@ NEXT_PUBLIC_SUPABASE_SECRET_KEY = {
 
 [tasks."dev"]
 dir = "web"
-run = "yarn run dev"
+run = "bun run dev"
 
 [tasks."db:start"]
 dir = "web"

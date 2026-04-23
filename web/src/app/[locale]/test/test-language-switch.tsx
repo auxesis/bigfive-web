@@ -35,8 +35,8 @@ export const TestLanguageSwitch = ({
         items={availableLanguages}
       >
         {(language) => (
-          <SelectItem key={language.id} value={language.id}>
-            {language.text}
+          <SelectItem key={language.code} value={language.code}>
+            {language.name}
           </SelectItem>
         )}
       </Select>

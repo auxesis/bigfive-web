@@ -1,4 +1,4 @@
-import { getItems, getInfo } from '@bigfive-org/questions';
+import { getItems, getInfo, type LanguageCode } from '@bigfive-org/questions';
 import { Survey } from './survey';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { saveTest } from '@/actions';
@@ -15,9 +15,11 @@ export default async function TestPage({ params, searchParams }: Props) {
   const { locale } = await params;
   const { lang } = await searchParams;
   setRequestLocale(locale);
-  const language =
-    lang || (questionLanguages.some((l) => l.id === locale) ? locale : 'en');
-  const questions = getItems(language);
+  const language = (lang ||
+    (questionLanguages.some((l) => l.code === locale)
+      ? locale
+      : 'en')) as LanguageCode;
+  const questions = await getItems(language);
   const t = await getTranslations({ locale, namespace: 'test' });
   return (
     <>

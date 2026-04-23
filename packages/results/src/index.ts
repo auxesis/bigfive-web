@@ -1,6 +1,28 @@
 import { LanguageCode } from "./data/languages";
-import languages from "./data/languages";
+import languages, { Language } from "./data/languages";
+export type { Language };
 import { TemplateDomain, Scores, FacetOptions, ResultOptions, DomainOptions } from "./types";
+
+export type Facet = {
+  facet: number;
+  title: string;
+  text: string;
+  score: number;
+  count: number;
+  scoreText: string;
+};
+
+export type Domain = {
+  domain: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  scoreText: string | undefined;
+  count: number;
+  score: number;
+  facets: Facet[];
+  text: string | undefined;
+};
 
 export default async function(options: ResultOptions) {
   const template = await getTemplate(options.language)

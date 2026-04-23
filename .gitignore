@@ -1,2 +1,6 @@
+# local config
 mise.local.toml
 mise.*.local.toml
+
+# deps
+node_modules/
